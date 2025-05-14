@@ -1,0 +1,33 @@
+.stHorizontalBlock {
+  align-items: flex-end;
+}
+.st-key-geo_table {
+  display: none;
+}
+.st-key-daily_table {
+  display: none;
+}
+[class*='st-key-hourly_table_'] {
+  display: none;
+}
+
+@media (min-width: 35rem) {
+  .st-key-geo_table {
+    display: block;
+  }
+  .st-key-geo_small {
+    display: none;
+  }
+  .st-key-daily_table {
+    display: block;
+  }
+  .st-key-daily_small {
+    display: none;
+  }
+  [class*='st-key-hourly_table_'] {
+    display: block;
+  }
+  [class*='st-key-hourly_small_'] {
+    display: none;
+  }
+}
