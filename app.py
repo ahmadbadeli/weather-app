@@ -36,7 +36,8 @@ with cols[1]:
     metric_unit = st.selectbox("select metric unit",options=["Km","Miles"],key="metric_unit")
 
 # General Variables
-response = None
+if 'response' not in st.session_state:
+    st.session_state['response'] = None
 
 # ------Start Search Section------
 st.write("##### Search")
@@ -50,9 +51,9 @@ with cols[1]:
     if st.button("Search",key="search_by_city"):
         if city:
             url = f"https://wttr.in/{city}?format=j1"
-            response = requests.get(url)
-            if response.status_code == 200:
-                data = response.json()
+            st.session_state['response'] = requests.get(url)
+            if st.session_state['response'].status_code == 200:
+                data = st.session_state['response'].json()
                 st.session_state['lat_location'] = float(data["nearest_area"][0]["latitude"])
                 st.session_state['lon_location'] = float(data["nearest_area"][0]["longitude"])
                 
@@ -93,15 +94,15 @@ if st.session_state.get('set_search',False):
     st.session_state.pop("set_search")
     try:
         url = f"https://wttr.in/{latitude},{longitude}?format=j1"
-        response = requests.get(url)
+        st.session_state['response'] = requests.get(url)
         msg.success(f"Selected Location: {latitude:.4f}, {longitude:.4f}")
     except:
         msg.error("No weather info for selected location")
     
 data = ""  
-if response:
-    if response.status_code == 200:
-        data = response.json()
+if st.session_state['response']:
+    if st.session_state['response'].status_code == 200:
+        data = st.session_state['response'].json()
         # Weather Conditions
         current_condition = data["current_condition"][0]
         cloud_cover = current_condition["cloudcover"]
